@@ -1,15 +1,18 @@
-// Skapar variabler som innehåller API:ets endpoints
-const urlA = "https://www.themealdb.com/api/json/v1/1/search.php?f=a"
-const urlB = "https://www.themealdb.com/api/json/v1/1/search.php?f=b"
-
 // Skapar async-funktion som ska hämta ut datan
 async function fetchMeals(){
-  // Hämtar datan med fetch(), när datan hämtats (await) sparas den i variabeln response
-  const response = await fetch(urlA);
-  // Omvandlar datan i response till JSON-objekt, när datan omvandlars (await) sparas den i variabeln data
-  const data = await response.json();
+  // Skapar lista med två av API:ets endpoints för måltider som börjar på A och B
+  const urls = [ "https://www.themealdb.com/api/json/v1/1/search.php?f=a",
+    "https://www.themealdb.com/api/json/v1/1/search.php?f=b"]
+  // Använder Promice.all för att hämta båda endpoints samtidigt
+  // Hämtar datan med fetch(), när datan hämtats (await) sparas den i variabeln responses
+  const responses = await Promise.all(urls.map(url => fetch(url)));
+  // Omvandlar datan i responses till JSON-objekt, när datan omvandlats (await Promise.all) sparas den i variabeln data
+  const data = await Promise.all(responses.map(res => res.json()));
+  // Plockar ut måltiderna från båda och slår ihop dem i en lista med flat.Map
+  // ?? [] skyddar mot null om en endpoint inte skulle ha några måltider, ersätts då med tom array
+  const allMeals = data.flatMap(d => d.meals ?? []);
   // Returnerar datan
-  return data;
+  return allMeals;
 }
 
 // Skapar ny async-funktion som hämtar datan från fetchMeals så att jag kan jobba med den
