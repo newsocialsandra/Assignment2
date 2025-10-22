@@ -17,18 +17,20 @@ async function fetchMeals(){
 
 // Skapar ny async-funktion som hämtar datan från fetchMeals så att jag kan jobba med den
 async function mealData() {
-  // Sparar datan från fetchMeals() i objektet data när fetchMeals jobbat klart (await)
-  const data = await fetchMeals();
-  // console loggar all data från måltider i objektet data
-  // console.log("Alla måltider: ", data.meals);
-  // console loggar namnet (strMeal) från första måltiden [0] i objektet data
-  //console.log("Första måltiden i objektet: ", data.meals[0].strMeal);
-  // console loggar 5 första namnen på måltider i alfabetisk ordning
-  const fiveMeals = [];
-  for (let i = 0; i < 3; i++) {
-    fiveMeals.push(data.meals[i].strMeal);
-  }
-  console.log(fiveMeals);
+  // Sparar datan från fetchMeals() i objektet allMeals när fetchMeals jobbat klart (await)
+  const allMeals = await fetchMeals();
+
+  // TEST: console loggar all data från måltider i objektet allMeals
+  //console.log("Alla måltider: ", allMeals);
+  // TEST: console loggar namnet (strMeal) från första måltiden [0] i objektet allMeals
+  //console.log("Första måltiden i objektet: ", allMeals[0].strMeal);
+
+  // Sorterar måltider efter namn och sparar dem i objekt sorted
+  const sorted = allMeals.sort((a,b) => a.strMeal.localeCompare(b.strMeal));
+  // Plockar ut de fem första måltidernas namn i en lista med hjälp av .slice() och .map()
+  const firstFive = sorted.slice(0,5).map(meal => meal.strMeal);
+
+  console.log(firstFive);
 }
 
 mealData();
