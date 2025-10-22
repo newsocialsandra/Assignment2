@@ -39,14 +39,15 @@ async function mealData() {
   console.log("Första fem måltiderna: " + firstFive);
   console.log("Första måltidens kategori: ", allMeals[0].strCategory);
 
-  // Nu ska jag logga alla måltider (namn och kategori) som tillhör kategorin Vegan
+  // Loggar alla måltider (namn och kategori) som tillhör kategorin Vegan
   const myCategory = "Vegan".toLowerCase();
+  // Skapar ny lista med de måltider som matchar min valda kategori, med metoden .filter()
   const filteredMeals = allMeals.filter(meal => meal.strCategory.toLowerCase() === myCategory);
   console.log("Alla måltider i kategorin Vegan:");
+  // Går igenom listan filtered.Meals och skriver ut namnet och kategorin för varje objekt i listan
   filteredMeals.forEach(meal => {
     console.log(`Måltid: ${meal.strMeal} – ${meal.strCategory}`)
   })
-  
 
   // Skapar ett tomt objekt som ska innehålla antal måltider per kategori i key value-pairs
   const countsByCategory = {};
@@ -63,4 +64,3 @@ async function mealData() {
 }
 
 mealData();
-
