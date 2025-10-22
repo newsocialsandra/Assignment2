@@ -1,19 +1,25 @@
-// Skapar async-funktion som ska hämta ut datan
+
+// Skapar async-funktion som ska få ut alla måltider genom att hämta data från flera endpoints
 async function fetchMeals(){
-  // Skapar lista med två av API:ets endpoints för måltider som börjar på A och B
-  const urls = [ "https://www.themealdb.com/api/json/v1/1/search.php?f=a",
-    "https://www.themealdb.com/api/json/v1/1/search.php?f=b"]
-  // Använder Promice.all för att hämta båda endpoints samtidigt
+  // Spara alla bokstäver i en lista alphabet och bas-endpoint i baseURL
+  const alphabet = [..."abcdefghijklmnopqrstuvwxyz"];
+  const baseUrl = "https://www.themealdb.com/api/json/v1/1/search.php?f=";
+  // Sätter ihop dem i ny lista urls med .map()
+  const urls = alphabet.map((letter) => baseUrl + letter);
+  // Använder Promise.all för att hämta alla endpoints samtidigt
   // Hämtar datan med fetch(), när datan hämtats (await) sparas den i nya objektet responses
   const responses = await Promise.all(urls.map(url => fetch(url)));
   // Omvandlar datan i responses till nya JSON-objekt, när datan omvandlats (await Promise.all) sparas den i objektet data
   const data = await Promise.all(responses.map(res => res.json()));
-  // Plockar ut måltiderna från båda och slår ihop dem i en lista med flat.Map
+  // Plockar ut måltiderna från alla objekt och slår ihop dem i en lista med flat.Map
   // ?? [] skyddar mot null om en endpoint inte skulle ha några måltider, ersätts då med tom array
   const allMeals = data.flatMap(d => d.meals ?? []);
   // Returnerar datan
   return allMeals;
 }
+
+// UPPGIFT 1: Print the first 5 names of the meals in alphabetical order
+
 
 // Skapar ny async-funktion som hämtar datan från fetchMeals så att jag kan jobba med den
 async function mealData() {
@@ -35,4 +41,6 @@ async function mealData() {
 
 mealData();
 
+
+// UPPGIFT 2: Print all meals that contain a given category
 
