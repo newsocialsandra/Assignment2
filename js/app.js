@@ -4,9 +4,9 @@ async function fetchMeals(){
   const urls = [ "https://www.themealdb.com/api/json/v1/1/search.php?f=a",
     "https://www.themealdb.com/api/json/v1/1/search.php?f=b"]
   // Använder Promice.all för att hämta båda endpoints samtidigt
-  // Hämtar datan med fetch(), när datan hämtats (await) sparas den i variabeln responses
+  // Hämtar datan med fetch(), när datan hämtats (await) sparas den i nya objektet responses
   const responses = await Promise.all(urls.map(url => fetch(url)));
-  // Omvandlar datan i responses till JSON-objekt, när datan omvandlats (await Promise.all) sparas den i variabeln data
+  // Omvandlar datan i responses till nya JSON-objekt, när datan omvandlats (await Promise.all) sparas den i objektet data
   const data = await Promise.all(responses.map(res => res.json()));
   // Plockar ut måltiderna från båda och slår ihop dem i en lista med flat.Map
   // ?? [] skyddar mot null om en endpoint inte skulle ha några måltider, ersätts då med tom array
@@ -32,6 +32,5 @@ async function mealData() {
 }
 
 mealData();
-
 
 
