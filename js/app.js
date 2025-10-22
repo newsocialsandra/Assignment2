@@ -18,13 +18,13 @@ async function fetchMeals(){
   return allMeals;
 }
 
-// UPPGIFT 1: Print the first 5 names of the meals in alphabetical order
-
+// Nu gör vi grejer med datan!
 
 // Skapar ny async-funktion som hämtar datan från fetchMeals så att jag kan jobba med den
 async function mealData() {
   // Sparar datan från fetchMeals() i objektet allMeals när fetchMeals jobbat klart (await)
   const allMeals = await fetchMeals();
+  console.log("Totalt antal måltider: " + allMeals.length);
 
   // TEST: console loggar all data från måltider i objektet allMeals
   //console.log("Alla måltider: ", allMeals);
@@ -36,11 +36,23 @@ async function mealData() {
   // Plockar ut de fem första måltidernas namn i en lista med hjälp av .slice() och .map()
   const firstFive = sorted.slice(0,5).map(meal => meal.strMeal);
 
-  console.log(firstFive);
+  console.log("Första fem måltiderna: " + firstFive);
+  console.log("Första måltidens kategori: ", allMeals[0].strCategory);
+
+
+  // Skapar ett tomt objekt som ska innehålla antal måltider per kategori i key value-pairs
+  const countsByCategory = {};
+
+  // loopar igenom alla måltider i all meals
+  for (const meal of allMeals) {
+    // sparar varje strCategory i variabel category - finns ingen kategori sätts kategorin "Okänd"
+    const category = meal.strCategory ?? "Okänd";
+    // strCategory läggs som key i countsByCategory, valuet ökar med ett varje gång kategorin syns i loopen
+    countsByCategory[category] = (countsByCategory[category] || 0) + 1;
+  }
+  console.log("Antal måltider per kategori:");
+  console.log(countsByCategory);
 }
 
 mealData();
-
-
-// UPPGIFT 2: Print all meals that contain a given category
 
