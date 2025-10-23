@@ -29,7 +29,7 @@ async function mealData() {
   // TEST: console loggar all data från måltider i objektet allMeals
   //console.log("Alla måltider: ", allMeals);
   // TEST: console loggar all data från första måltiden i objektet allMeals
-  console.log("Första måltiden: ", allMeals[1]);
+  // console.log("Första måltiden: ", allMeals[1]);
   // TEST: console loggar namnet (strMeal) från första måltiden [0] i objektet allMeals
   //console.log("Första måltiden i objektet: ", allMeals[0].strMeal);
 
@@ -63,27 +63,35 @@ async function mealData() {
   console.log("Antal måltider per kategori:");
   console.log(countsByCategory);
 
+  // STRETCH GOALS 
+
   // Funktion för att gruppera måltider efter vald key
   function groupBy(items,key) {
-   // Någonstans måste jag väl koppla detta till allMeals, så att den plockar allMeals."strArea"?
-    // Och jag vill inte att den lägger in ALLT från varje måltid utan bara strMeal, strCategory och strArea
-
+    // Använder .reduce() för att bygga upp ett nytt objekt
+    // acc = det som byggs upp för varje steg
+    // item = det aktuella elementet i listan som reduce jobbar med
     return items.reduce((acc, item) => {
+      // kollar värdet i item för vald key och lägger värdet (t.ex. "Greek") i groupValue
       const groupValue = item[key];
-
+      // om acc saknar värdet i groupValue (t.ex. "Greek" finns inte där)
       if (!acc[groupValue]) {
+        // så skapas en tom array för värdet i acc (t.ex. acc["Greek"] = [])
         acc[groupValue] = [];
       }
+      // lägger till aktuellt värde i arrayen för gruppen i acc
       acc[groupValue].push(item);
+      // returnerar acc och börjar om igen med nästa element i listan
       return acc;
     })
-
     }
-
-  const groupByArea = groupBy(allMeals, "strArea");
+  // Skapar variabel som hämtar ut valda key value pairs från allmeals i en ny lista
+  const cleanedMeals = allMeals.map(meal => ({
+    strMeal: meal.strMeal,
+    strCategory: meal.strCategory,
+    strArea: meal.strArea,
+  }))
+  const groupByArea = groupBy(cleanedMeals, "strArea");
   console.log(groupByArea);
-
-
 }
 
 mealData();
