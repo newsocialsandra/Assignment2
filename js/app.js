@@ -28,6 +28,8 @@ async function mealData() {
 
   // TEST: console loggar all data från måltider i objektet allMeals
   //console.log("Alla måltider: ", allMeals);
+  // TEST: console loggar all data från första måltiden i objektet allMeals
+  console.log("Första måltiden: ", allMeals[1]);
   // TEST: console loggar namnet (strMeal) från första måltiden [0] i objektet allMeals
   //console.log("Första måltiden i objektet: ", allMeals[0].strMeal);
 
@@ -37,7 +39,6 @@ async function mealData() {
   const firstFive = sorted.slice(0,5).map(meal => meal.strMeal);
 
   console.log("Första fem måltiderna: " + firstFive);
-  console.log("Första måltidens kategori: ", allMeals[0].strCategory);
 
   // Loggar alla måltider (namn och kategori) som tillhör kategorin Vegan
   const myCategory = "Vegan".toLowerCase();
@@ -56,11 +57,33 @@ async function mealData() {
   for (const meal of allMeals) {
     // sparar varje strCategory i variabel category - finns ingen kategori sätts kategorin "Okänd"
     const category = meal.strCategory ?? "Okänd";
-    // strCategory läggs som key i countsByCategory, valuet ökar med ett varje gång kategorin syns i loopen
+    // strCategory läggs som key i countsByCategory, value ökar med ett varje gång kategorin syns i loopen
     countsByCategory[category] = (countsByCategory[category] || 0) + 1;
   }
   console.log("Antal måltider per kategori:");
   console.log(countsByCategory);
+
+  // Funktion för att gruppera måltider efter vald key
+  function groupBy(items,key) {
+   // Någonstans måste jag väl koppla detta till allMeals, så att den plockar allMeals."strArea"?
+    // Och jag vill inte att den lägger in ALLT från varje måltid utan bara strMeal, strCategory och strArea
+
+    return items.reduce((acc, item) => {
+      const groupValue = item[key];
+
+      if (!acc[groupValue]) {
+        acc[groupValue] = [];
+      }
+      acc[groupValue].push(item);
+      return acc;
+    })
+
+    }
+
+  const groupByArea = groupBy(allMeals, "strArea");
+  console.log(groupByArea);
+
+
 }
 
 mealData();
